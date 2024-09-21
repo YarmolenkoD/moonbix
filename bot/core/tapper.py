@@ -239,6 +239,127 @@ class Tapper:
         except Exception as error:
             logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Proxy: {proxy} | 😢 Error: {error}")
 
+    async def solve_task(self, http_client: aiohttp.ClientSession, task: dict):
+        ignore_task = []
+        task_id = task.get("id")
+        task_title = task.get("title")
+        task_status = task.get("status")
+        start_task_url = "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/task/list/{task_id}"
+        claim_task_url = "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/task/list/{task_id}"
+        if task_id in ignore_task:
+            return
+        if task_status == "job done":
+            logger.info(f"<light-yellow>{self.session_name}</light-yellow> | Already claim task id: <magenta>{task_id}</magenta>")
+            return
+        if task_status == "READY_FOR_CLAIM":
+            resp = await http_client.post(
+                claim_task_url,
+                ssl=False
+            )
+            json = await resp.json()
+            status = resp.get("status")
+            if status == "FINISHED":
+                logger.success(f"<light-yellow>{self.session_name}</light-yellow> | Success complete task id: <magenta>{task_id}</magenta>")
+                return
+
+        resp = await http_client.post(start_task_url, ssl=False)
+        await asyncio.sleep(5)
+        status = resp.get("status")
+        if status == "STARTED":
+            resp = await http_client.post(
+                claim_task_url,
+                ssl=False
+            )
+            json = await resp.json()
+            status = resp.get("status")
+            if status == "FINISHED":
+                logger.success(f"<light-yellow>{self.session_name}</light-yellow> | Success complete task id: <magenta>{task_id}</magenta>")
+                return
+
+    def solve_tasks(self, http_client: aiohttp.ClientSession):
+        url_tasks = "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/task/list"
+
+        json_data = { "resourceId":2056 }
+        resp = await http_client.get(url_tasks, json=json_data, ssl=False)
+
+        json = await resp.json()
+
+        if json.get('status') == False:
+            return None
+
+        data = json.get('data').get('data')
+
+        for section in data:
+            task_list = section['taskList']
+
+    async def auto_farming(self, http_client: aiohttp.ClientSession):
+        url = "https://bin.bnbstatic.com/api/i18n/-/web/cms/en/growth-game-ui"
+
+        while True:
+            resp = await http_client.post(url, headers, "")
+            json = resp.json()
+            end = json.get("endTime")
+
+            if end is None:
+                await asyncio.sleep(3)
+                continue
+            break
+
+        end_date = datetime.fromtimestamp(end / 1000)
+
+        logger.success(f"<light-yellow>{self.session_name}</light-yellow> | Start farming successfully!")
+        logger.info(f"<light-yellow>{self.session_name}</light-yellow> | End farming : {white}{end_date}")
+
+        return round(end / 1000)
+
+    async def play_game(self, http_client: aiohttp.ClientSession):
+        url_play = "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/play"
+        url_claim = "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/claim"
+        url_balance = "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/balance"
+
+        while True:
+            res = self.http(url_balance, headers)
+            play = res.dp().get("playPasses")
+            if play is None:
+                self.log(f"{yellow}failed get game ticket !")
+                break
+            self.log(f"{green}you have {white}{play}{green} game ticket")
+            if play <= 0:
+                return
+            for i in range(play):
+                if self.is_expired(access_token):
+                    return True
+                res = self.http(url_play, headers, "")
+                game_id = res.dp().get("gameId")
+                if game_id is None:
+                    message = res.dp().get("message", "")
+                    if message == "cannot start game":
+                        self.log(
+                            f"{yellow}{message},will be tried again in the next round."
+                        )
+                        return False
+                    self.log(f"{yellow}{message}")
+                    continue
+                while True:
+                    self.countdown(30)
+                    point = random.randint(self.MIN_WIN, self.MAX_WIN)
+                    data = dp.dumps({"gameId": game_id, "points": point})
+                    res = self.http(url_claim, headers, data)
+                    if "OK" in res.text:
+                        self.log(
+                            f"{green}success earn {white}{point}{green} from game !"
+                        )
+                        self.get_balance(access_token, only_show_balance=True)
+                        break
+
+                    message = res.dp().get("message", "")
+                    if message == "game session not finished":
+                        continue
+
+                    self.log(f"{red}failed earn {white}{point}{red} from game !")
+                    break
+
+
     async def run(self, proxy: str | None) -> None:
         if settings.USE_RANDOM_DELAY_IN_RUN:
             random_delay = random.randint(settings.RANDOM_DELAY_IN_RUN[0], settings.RANDOM_DELAY_IN_RUN[1])
