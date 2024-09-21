@@ -222,7 +222,7 @@ class Tapper:
             json_data = {"resourceId":2056}
             resp = await http_client.get(
                  f"https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/user/user-info",
-                 json=json_data
+                 json=json_data,
                  ssl=False
             )
             json = await resp.json()
