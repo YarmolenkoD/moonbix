@@ -4,6 +4,9 @@
 
 [![Static Badge](https://img.shields.io/badge/Telegram-Bot%20Link-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/Binance_Moonbix_bot/start?startApp=ref_355876562&startapp=ref_355876562&utm_medium=web_share_copy)
 
+# THIS IS BOT IS IN PROGRESS #
+# ЭТОТ БОТ ЕЩЕ В РАЗРАБОТКЕ #
+
 # 🚀AUTO FARM FOR MOONBIX 🚀
 
 ## Recommendation before use
