@@ -276,10 +276,11 @@ class Tapper:
                 logger.success(f"<light-yellow>{self.session_name}</light-yellow> | Success complete task id: <magenta>{task_id}</magenta>")
                 return
 
-    def solve_tasks(self, http_client: aiohttp.ClientSession):
+    async def solve_tasks(self, http_client: aiohttp.ClientSession):
         url_tasks = "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/task/list"
 
-        json_data = { "resourceId":2056 }
+        json_data = { "resourceId": 2056 }
+
         resp = await http_client.get(url_tasks, json=json_data, ssl=False)
 
         json = await resp.json()
