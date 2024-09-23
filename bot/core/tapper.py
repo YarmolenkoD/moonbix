@@ -364,9 +364,101 @@ class Tapper:
             self.warning(f"Get tasks list failed: {data}")
             return None
 
+    async def get_game_data(self, http_client: aiohttp.ClientSession, game: dict):
+        try:
+            payload = {
+                "game_response": game
+            }
+
+            response = await http_client.get(
+                "https://moonbix-server-9r08ifrt4-scriptvips-projects.vercel.app/moonbix/api/v1/play",
+                json=payload
+            )
+
+            json = await response.json()
+
+            if json['message'] == 'success':
+                 self.info("Game data received successfully");
+                 return json['game'];
+        except Exception as error:
+            self.error(f"Error occurred during get game data: {error}")
+            return None
+
+    async def complete_game(self, http_client: aiohttp.ClientSession, game_data: dict):
+        try:
+            payload = {
+                "log": game_data['log'],
+                "payload": game_data['payload'],
+                "resourceId": 2056
+            }
+
+            response = await http_client.post(
+                "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/game/complete",
+                json=payload
+            )
+
+            data = await response.json()
+
+            if data['success']:
+                self.success(f"Successfully earned: 💰<yellow>{game_data['log']}</yellow> 💰 from game!")
+            else:
+                self.warning(f"Failed to complete game: {game_data}")
+        except Exception as error:
+            self.error(f"Error occurred during complete game: {error}")
+
+
     async def play_games(self, http_client: aiohttp.ClientSession):
         try:
-            self.info('Auto games in development..')
+            info, _, _ = await self.get_user_info(http_client=http_client)
+
+            if info['totalAttempts'] == info['consumedAttempts']:
+                self.info(f"No attempts")
+                return
+
+            attempts_left = info['totalAttempts'] - info['consumedAttempts']
+
+            while attempts_left > 0:
+                self.info(f"Attempts left: 🚀<cyan>{attempts_left}</cyan> 🚀")
+
+                self.info(f"Starting game...")
+
+                payload = {
+                    "resourceId": 2056
+                }
+
+                response = await http_client.post(
+                    "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/game/start",
+                    json=payload
+                )
+
+                data = await response.json()
+
+                info, _, _ = await self.get_user_info(http_client=http_client)
+
+                attempts_left = info['totalAttempts'] - info['consumedAttempts']
+
+                if data['success']:
+                    self.success(f"Game started successful 🕹")
+
+                    sleep = random.choices([45, 47, 48, 50], weights=[25, 25, 25, 25], k=1)[0]
+
+                    game_data = await self.get_game_data(http_client=http_client, game=data)
+
+                    if game_data is not None:
+                        self.info(f"Wait {sleep}s to complete the game... 💤")
+                        await asyncio.sleep(delay=sleep)
+
+                        await self.complete_game(http_client=http_client, game_data=game_data)
+
+                else:
+                    self.warning(f"Failed to start game, msg: {data}")
+                    return
+
+                sleep = random.choices([3, 4, 5, 6], weights=[25, 25, 25, 25], k=1)[0]
+
+                self.info(f"Sleep {sleep}s between games 💤")
+
+                await asyncio.sleep(sleep)
         except Exception as error:
             self.error(f"Error occurred during play games {error}")
 
@@ -440,16 +532,17 @@ class Tapper:
                                     self.success(f"Successfully completed task <cyan>{task['type']}</cyan> | Reward: 💰<yellow>{task['rewardList'][0]['amount']}</yellow> 💰")
                                 else:
                                     self.warning(f"Failed to complete task: {task['type']}, msg: <light-yellow>{check}</light-yellow>")
-                                await asyncio.sleep(random.uniform(3,5))
+                                sleep = random.choices([3, 4, 5, 6], weights=[25, 25, 25, 25], k=1)[0]
+                                await asyncio.sleep(sleep)
 
-#                     if settings.ENABLE_AUTO_PLAY_GAMES:
-#                         await self.play_games(http_client=http_client)
+                    if settings.ENABLE_AUTO_PLAY_GAMES:
+                        await self.play_games(http_client=http_client)
 
                 sleep_in_seconds = random.choices([600, 1200, 1800, 2100], weights=[25, 25, 25, 25], k=1)[0]
 
                 sleep_in_minutes = sleep_in_seconds / 60
 
-                self.info(f"💤 sleep {sleep_in_minutes} minutes 💤")
+                self.info(f"sleep {sleep_in_minutes} minutes between cycles 💤")
                 await asyncio.sleep(delay=sleep_in_seconds)
 
             except Exception as error:
