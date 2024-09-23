@@ -11,6 +11,7 @@ Brotli==1.1.0
 colorama==0.4.6
 DateTime==5.5
 fake-useragent==1.5.1
+Faker==29.0.0
 frozenlist==1.4.1
 idna==3.6
 Js2Py==0.74
