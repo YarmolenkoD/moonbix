@@ -21,10 +21,11 @@ start_text = """
 ██║ ╚═╝ ██║╚██████╔╝╚██████╔╝██║ ╚████║██████╔╝██║██╔╝ ██╗
 ╚═╝     ╚═╝ ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═════╝ ╚═╝╚═╝  ╚═╝
 
-Github - https://github.com/YarmolenkoD/moonbix
+⭐️Github - https://github.com/YarmolenkoD/moonbix
 
 My other bots:
-Boinkers - https://github.com/YarmolenkoD/boinkers
+
+💩Boinkers - https://github.com/YarmolenkoD/boinkers
 
 Select an action:
 

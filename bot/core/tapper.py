@@ -63,27 +63,27 @@ class Tapper:
 
     def info(self, message):
         from bot.utils import info
-        info(f"<light-yellow>{self.session_name}</light-yellow> | {message}")
+        info(f"<light-yellow>{self.session_name}</light-yellow> | ℹ️ {message}")
 
     def debug(self, message):
         from bot.utils import debug
-        debug(f"<light-yellow>{self.session_name}</light-yellow> | {message}")
+        debug(f"<light-yellow>{self.session_name}</light-yellow> | ⚙️ {message}")
 
     def warning(self, message):
         from bot.utils import warning
-        warning(f"<light-yellow>{self.session_name}</light-yellow> | {message}")
+        warning(f"<light-yellow>{self.session_name}</light-yellow> | ⚠️ {message}")
 
     def error(self, message):
         from bot.utils import error
-        error(f"<light-yellow>{self.session_name}</light-yellow> | {message}")
+        error(f"<light-yellow>{self.session_name}</light-yellow> | 😢 {message}")
 
     def critical(self, message):
         from bot.utils import critical
-        critical(f"<light-yellow>{self.session_name}</light-yellow> | {message}")
+        critical(f"<light-yellow>{self.session_name}</light-yellow> | 😱 {message}")
 
     def success(self, message):
         from bot.utils import success
-        success(f"<light-yellow>{self.session_name}</light-yellow> | {message}")
+        success(f"<light-yellow>{self.session_name}</light-yellow> | ✅ {message}")
 
     def save_user_agent(self):
         user_agents_file_name = "user_agents.json"
@@ -98,7 +98,7 @@ class Tapper:
             with open(user_agents_file_name, 'w') as user_agents:
                 json.dump(self.session_ug_dict, user_agents, indent=4)
 
-            logger.success(f"<light-yellow>{self.session_name}</light-yellow> | User agent saved successfully")
+            self.success(f"User agent saved successfully")
 
             return user_agent_str
 
@@ -198,8 +198,8 @@ class Tapper:
             raise error
 
         except Exception as error:
-            logger.error(
-                f"<light-yellow>{self.session_name}</light-yellow> | Unknown error during Authorization: {error}")
+            self.error(
+                f"Unknown error during Authorization: {error}")
             await asyncio.sleep(delay=3)
 
     async def login(self, http_client: aiohttp.ClientSession, tg_data):
@@ -224,7 +224,7 @@ class Tapper:
 
                 return access_token, refresh_token
             else:
-                self.warning(f"{self.session_name} | Get access token failed: {data}")
+                self.warning(f"Get access token failed: {data}")
         except Exception as e:
             self.error(f"Error occurred during login: {e}")
     async def complete_task(self, http_client: aiohttp.ClientSession, task: dict):
@@ -277,7 +277,7 @@ class Tapper:
                 complete = await self.complete_task(http_client=http_client, task=login_task)
 
                 if complete == "done":
-                    logger.success(f"Successfully checkin for the first time !")
+                    self.success(f"Successfully checkin for the first time!")
         
         else:
             self.warning(f"Unknown error while trying to init account: {json}")
@@ -316,9 +316,9 @@ class Tapper:
         try:
             response = await http_client.get(url='https://httpbin.org/ip', timeout=aiohttp.ClientTimeout(5))
             ip = (await response.json()).get('origin')
-            logger.info(f"<light-yellow>{self.session_name}</light-yellow> | Proxy IP: {ip}")
+            self.info(f"Proxy IP: {ip}")
         except Exception as error:
-            logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Proxy: {proxy} | 😢 Error: {error}")
+            self.error(f"Proxy: {proxy} | Error: {error}")
 
     def update_headers(self, http_client: aiohttp.ClientSession):
         try:
@@ -332,7 +332,7 @@ class Tapper:
             http_client.headers['Bnc-Uuid'] = str(uuid.uuid4())
             http_client.headers['Cookie'] = f"theme=dark; bnc-uuid={http_client.headers['Bnc-Uuid']};"
         except Exception as error:
-            logger.error(f"<light-yellow>{self.session_name}</light-yellow> | Error occurred during updating headers {error}")
+            self.error(f"Error occurred during updating headers {error}")
 
     async def get_task_list(self, http_client: aiohttp.ClientSession):
         payload = {
@@ -364,58 +364,16 @@ class Tapper:
             self.warning(f"Get tasks list failed: {data}")
             return None
 
-    async def play_game(self, http_client: aiohttp.ClientSession):
+    async def play_games(self, http_client: aiohttp.ClientSession):
         try:
-            info  = self.get_user_info(http_client=http_client)
-            if info['totalAttempts'] == info['consumedAttempts']:
-                self.info(f"No Attempt left to play game...")
-                return
-
-            attempt_left = info['totalAttempts'] - info['consumedAttempts']
-            self.info(f"Starting to play game...")
-
-            while attempt_left > 0:
-                self.info(f"Attempts left: <cyan>{attempt_left}</cyan>")
-
-                payload = {
-                    "resourceId": 2056
-                }
-
-                response = await http_client.post(
-                    "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/game/start",
-                    json=payload
-                )
-
-                data = await response.json()
-
-                if data['success']:
-                    self.success(f"<green>Game <cyan>{data['data']['gameTag']}</cyan> started successful</green>")
-
-                    self.game_response = data_
-                    sleep = random.uniform(45, 45.05)
-                    logger.info(f"{self.session_name} | Wait <white>{sleep}s</white> to complete the game...")
-                    await asyncio.sleep(delay=sleep)
-                    check = self.get_game_data(session)
-                    if check:
-                        self.complete_game(session)
-                        attempt_left = self.auto_update_ticket(session)
-
-                else:
-                    logger.warning(f"{self.session_name} | <yellow>Failed to start game, msg: {data_}</yellow>")
-                    return
-
-                sleep = random.uniform(5, 10)
-
-                logger.info(f"{self.session_name} | Sleep {sleep_}s...")
-
-                await asyncio.sleep(sleep_)
+            self.info('Auto games in development..')
         except Exception as error:
-            logger.error(f"Error occurred during play games {error}")
+            self.error(f"Error occurred during play games {error}")
 
     async def run(self, proxy: str | None) -> None:
         if settings.USE_RANDOM_DELAY_IN_RUN:
             random_delay = random.randint(settings.RANDOM_DELAY_IN_RUN[0], settings.RANDOM_DELAY_IN_RUN[1])
-            logger.info(f"<light-yellow>{self.session_name}</light-yellow> | Bot will start in <ly>{random_delay}s</ly>")
+            self.info(f"Bot will start in <ly>{random_delay}s</ly>")
             await asyncio.sleep(random_delay)
 
         access_token = None
@@ -461,8 +419,7 @@ class Tapper:
                 await asyncio.sleep(delay=3)
 
             except Exception as error:
-                logger.error(
-                    f"<light-yellow>{self.session_name}</light-yellow> | 😢 Unknown error during login: {error}")
+                self.error("Unknown error during login: {error}")
                 await asyncio.sleep(delay=3)
 
             try:
@@ -471,7 +428,7 @@ class Tapper:
                 await asyncio.sleep(delay=2)
 
                 if user is not None:
-                    logger.info(f"<light-yellow>{self.session_name}</light-yellow> | Points: 💰<light-green>{'{:,}'.format(total_balance)}</light-green> 💰 | Your Attempts: 🚀<light-green>{'{:,}'.format(current_attempts)}</light-green> 🚀")
+                    self.info(f"Points: 💰<light-green>{'{:,}'.format(total_balance)}</light-green> 💰 | Your Attempts: 🚀<light-green>{'{:,}'.format(current_attempts)}</light-green> 🚀")
 
                     if settings.ENABLE_AUTO_TASKS:
                         tasks_list = await self.get_task_list(http_client=http_client)
@@ -480,7 +437,7 @@ class Tapper:
                             for task in tasks_list:
                                 check = await self.complete_task(http_client=http_client, task=task)
                                 if check == "done":
-                                    self.success(f"Successfully completed task <cyan>{task['type']}</cyan> | Reward: <yellow>{task['rewardList'][0]['amount']}</yellow>")
+                                    self.success(f"Successfully completed task <cyan>{task['type']}</cyan> | Reward: 💰<yellow>{task['rewardList'][0]['amount']}</yellow> 💰")
                                 else:
                                     self.warning(f"Failed to complete task: {task['type']}, msg: <light-yellow>{check}</light-yellow>")
                                 await asyncio.sleep(random.uniform(3,5))
@@ -492,15 +449,14 @@ class Tapper:
 
                 sleep_in_minutes = sleep_in_seconds / 60
 
-                logger.info(f"<light-yellow>{self.session_name}</light-yellow> | 💤 sleep {sleep_in_minutes} minutes 💤")
+                self.info(f"💤 sleep {sleep_in_minutes} minutes 💤")
                 await asyncio.sleep(delay=sleep_in_seconds)
 
             except Exception as error:
-                logger.error(
-                    f"<light-yellow>{self.session_name}</light-yellow> | 😢 Unknown error: {error}")
+                self.error(f"Unknown error: {error}")
 
 async def run_tapper(tg_client: Client, proxy: str | None):
     try:
         await Tapper(tg_client=tg_client).run(proxy=proxy)
     except InvalidSession:
-        logger.error(f"{tg_client.name} | 😢 Invalid Session 😢")
+        self.error(f"{tg_client.name} | Invalid Session")
