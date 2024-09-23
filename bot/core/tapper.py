@@ -366,7 +366,8 @@ class Tapper:
 
     async def play_game(self, http_client: aiohttp.ClientSession):
         try:
-            info  = self.get_user_info(http_client=http_client)
+            info = await self.get_user_info(http_client=http_client)
+
             if info['totalAttempts'] == info['consumedAttempts']:
                 self.info(f"No Attempt left to play game...")
                 return
@@ -386,27 +387,31 @@ class Tapper:
                     json=payload
                 )
 
-                data = await response.json()
+                game = await response.json()
 
-                if data['success']:
-                    self.success(f"<green>Game <cyan>{data['data']['gameTag']}</cyan> started successful</green>")
+                if game['success']:
+                    self.success(f"Game <cyan>{data['data']['gameTag']}</cyan> started successful")
 
-                    self.game_response = data_
                     sleep = random.uniform(45, 45.05)
-                    logger.info(f"{self.session_name} | Wait <white>{sleep}s</white> to complete the game...")
+
+                    self.info(f"Wait {sleep}s to complete the game...")
+
                     await asyncio.sleep(delay=sleep)
-                    check = self.get_game_data(session)
+
+                    check = await self.get_game_data(http_client=http_client, game=game)
+
                     if check:
-                        self.complete_game(session)
-                        attempt_left = self.auto_update_ticket(session)
+                        await self.complete_game(http_client=http_client, game=game)
+                        info = await self.get_user_info(http_client=http_client)
+                        attempt_left = info['totalAttempts'] - info['consumedAttempts']
 
                 else:
-                    logger.warning(f"{self.session_name} | <yellow>Failed to start game, msg: {data_}</yellow>")
+                    self.warning(f"Failed to start game, msg: {data}")
                     return
 
                 sleep = random.uniform(5, 10)
 
-                logger.info(f"{self.session_name} | Sleep {sleep_}s...")
+                self.info(f"Sleep {sleep}s...")
 
                 await asyncio.sleep(sleep_)
         except Exception as error:
