@@ -20,6 +20,7 @@
 |           Support for pyrogram .session            |     ✅     |
 | Auto-register your account with your referral link |     ✅     |
 |                     Auto tasks                     |     ✅     |
+|                     Auto games                     |     ✅     |
 
 
 ## [Settings](https://github.com/YarmolenkoD/moonbix/blob/main/.env-example/)
@@ -32,6 +33,7 @@
 |         **REF_ID**          |   Your referral argument (comes after app/startapp? in your referral link)   |
 |   **USE_PROXY_FROM_FILE**   | Whether to use a proxy from the `bot/config/proxies.txt` file (True / False) |
 |    **ENABLE_AUTO_TASKS**    |                       Enable auto tasks (True / False)                       |
+| **ENABLE_AUTO_PLAY_GAMES**  |                    Enable auto play games (True / False)                     |
 
 ## Quick Start 📚
 
@@ -67,7 +69,6 @@ run.sh
 
 # Linux manual installation
 ```shell
-sudo sh install.sh
 python3 -m venv venv
 source venv/bin/activate
 pip3 install -r requirements.txt
