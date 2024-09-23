@@ -53,6 +53,7 @@ async def invoke_web_view(data, self):
 
     first_byte = 75
     second_byte = 25
+
     if count > 5:
         first_byte = 75
         second_byte = 25
@@ -61,6 +62,7 @@ async def invoke_web_view(data, self):
         second_byte = 00
 
     param = random.choices([data.start_param, get_logger_bytes()], weights=[first_byte, second_byte], k=1)[0]
+
     web_view = await self.tg_client.invoke(RequestAppWebView(
         peer=data.peer,
         app=data.app,
@@ -68,6 +70,7 @@ async def invoke_web_view(data, self):
         write_allowed=data.write_allowed,
         start_param=param
     ))
+
     return web_view
 
 class SelfTGClient:

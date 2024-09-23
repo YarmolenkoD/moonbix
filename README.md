@@ -4,9 +4,6 @@
 
 [![Static Badge](https://img.shields.io/badge/Telegram-Bot%20Link-Link?style=for-the-badge&logo=Telegram&logoColor=white&logoSize=auto&color=blue)](https://t.me/Binance_Moonbix_bot/start?startApp=ref_355876562&startapp=ref_355876562&utm_medium=web_share_copy)
 
-# THIS BOT STILL IN DEVELOPMENT #
-# ЭТОТ БОТ ЕЩЕ В РАЗРАБОТКЕ #
-
 # 🚀AUTO FARM FOR MOONBIX 🚀
 
 ## Recommendation before use
@@ -20,21 +17,21 @@
 |:--------------------------------------------------:|:---------:|
 |                   Multithreading                   |     ✅     |
 |              Proxy binding to session              |     ✅     |
+|           Support for pyrogram .session            |     ✅     |
 | Auto-register your account with your referral link |     ✅     |
 |                     Auto tasks                     |     ✅     |
-|           Support for pyrogram .session            |     ✅     |
 
 
 ## [Settings](https://github.com/YarmolenkoD/moonbix/blob/main/.env-example/)
 |          Settings           |                                 Description                                  |
 |:---------------------------:|:----------------------------------------------------------------------------:|
 |    **API_ID / API_HASH**    |   Platform data from which to run the Telegram session (default - android)   |
-|       **PLAY_GAMES**        |              Play games or just start farming (default is True)              |
 | **USE_RANDOM_DELAY_IN_RUN** |                              Name saying itself                              |
 |   **RANDOM_DELAY_IN_RUN**   |               Random seconds delay for ^^^ (default is [5, 30]               |
 |         **USE_REF**         |         Register accounts with ur referral or not (default - False)          |
 |         **REF_ID**          |   Your referral argument (comes after app/startapp? in your referral link)   |
 |   **USE_PROXY_FROM_FILE**   | Whether to use a proxy from the `bot/config/proxies.txt` file (True / False) |
+|    **ENABLE_AUTO_TASKS**    |                       Enable auto tasks (True / False)                       |
 
 ## Quick Start 📚
 

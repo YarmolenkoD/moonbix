@@ -9,6 +9,9 @@ class Settings(BaseSettings):
     USE_REF: bool = True
     REF_ID: str = 'ref_355876562'
 
+    ENABLE_AUTO_TASKS: bool = True
+    ENABLE_AUTO_PLAY_GAMES: bool = True
+
     USE_RANDOM_DELAY_IN_RUN: bool = True
     RANDOM_DELAY_IN_RUN: list[int] = [5, 60]
 
