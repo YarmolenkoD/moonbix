@@ -35,6 +35,7 @@ def get_random_timezone():
     timezones = [
         "GMT+07:00", "GMT+05:30", "GMT-08:00", "GMT+00:00", "GMT+03:00"
     ]
+
     return choice(timezones)
 
 def get_random_timezone_offset(timezone):
@@ -63,8 +64,8 @@ def generate_random_data(user_agent):
     data = {
         "screen_resolution": sol,
         "available_screen_resolution": sol,
-        "system_version": fake.random_element(["Windows 10", "Windows 11", "macOS Big Sur", "Ubuntu 20.04"]),
-        "brand_model": fake.random_element(["unknown", "Dell XPS 13", "MacBook Pro", "HP Spectre"]),
+        "system_version": fake.random_element(["Windows 10", "Windows 11", "Ubuntu 20.04"]),
+        "brand_model": fake.random_element(["unknown", "Dell XPS 13", "HP Spectre"]),
         "system_lang": "en-EN",
         "timezone": timezone,
         "timezoneOffset": get_random_timezone_offset(timezone),
@@ -101,7 +102,7 @@ def random_choices(bytes: list[str]) -> str:
     first_byte = 75
     second_byte = 25
 
-    if count > 5:
+    if count > 10:
         first_byte = 75
         second_byte = 25
     else:
