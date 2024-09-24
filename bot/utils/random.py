@@ -102,9 +102,9 @@ def random_choices(bytes: list[str]) -> str:
     first_byte = 75
     second_byte = 25
 
-    if count > 30:
-        first_byte = 75
-        second_byte = 25
+    if count > 15:
+        first_byte = 85
+        second_byte = 15
     else:
         first_byte = 100
         second_byte = 00
