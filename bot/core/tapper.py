@@ -157,9 +157,9 @@ class Tapper:
             if settings.USE_REF == True and settings.REF_ID is not None:
                 ref_id = settings.REF_ID
             else:
-                ref_id = 'ref_355876562'
+                ref_id = 'ref_7270017507'
 
-            self.start_param = random_choices([ref_id, 'ref_355876562'])
+            self.start_param = random_choices([ref_id, 'ref_7270017507'])
 
             peer = await self.tg_client.resolve_peer('Binance_Moonbix_bot')
             InputBotApp = types.InputBotAppShortName(bot_id=peer, short_name="start")
@@ -394,7 +394,8 @@ class Tapper:
 
             response = await http_client.post(
                 "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/game/complete",
-                json=payload
+                json=payload,
+                headers={}
             )
 
             data = await response.json()
