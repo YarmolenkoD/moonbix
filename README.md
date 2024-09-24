@@ -24,16 +24,17 @@
 
 
 ## [Settings](https://github.com/YarmolenkoD/moonbix/blob/main/.env-example/)
-|          Settings           |                                 Description                                  |
-|:---------------------------:|:----------------------------------------------------------------------------:|
-|    **API_ID / API_HASH**    |   Platform data from which to run the Telegram session (default - android)   |
-| **USE_RANDOM_DELAY_IN_RUN** |                              Name saying itself                              |
-|   **RANDOM_DELAY_IN_RUN**   |               Random seconds delay for ^^^ (default is [5, 30]               |
-|         **USE_REF**         |         Register accounts with ur referral or not (default - False)          |
-|         **REF_ID**          |   Your referral argument (comes after app/startapp? in your referral link)   |
-|   **USE_PROXY_FROM_FILE**   | Whether to use a proxy from the `bot/config/proxies.txt` file (True / False) |
-|    **ENABLE_AUTO_TASKS**    |                       Enable auto tasks (True / False)                       |
-| **ENABLE_AUTO_PLAY_GAMES**  |                    Enable auto play games (True / False)                     |
+|              Settings              |                                     Description                                      |
+|:----------------------------------:|:------------------------------------------------------------------------------------:|
+|       **API_ID / API_HASH**        |       Platform data from which to run the Telegram session (default - android)       |
+|    **USE_RANDOM_DELAY_IN_RUN**     |                                  Name saying itself                                  |
+|      **RANDOM_DELAY_IN_RUN**       |                  Random seconds delay for ^^^ (default is [5, 30])                   |
+| **RANDOM_DELAY_BETWEEN_CYCLES**    |     Random minutes delay between cycles (default is [20, 40, 60, 80])                |
+|            **USE_REF**             |             Register accounts with ur referral or not (default - False)              |
+|             **REF_ID**             |       Your referral argument (comes after app/startapp? in your referral link)       |
+|      **USE_PROXY_FROM_FILE**       |     Whether to use a proxy from the `bot/config/proxies.txt` file (True / False)     |
+|       **ENABLE_AUTO_TASKS**        |                           Enable auto tasks (True / False)                           |
+|     **ENABLE_AUTO_PLAY_GAMES**     |                        Enable auto play games (True / False)                         |
 
 ## Quick Start 📚
 

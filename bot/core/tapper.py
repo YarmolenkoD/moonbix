@@ -538,12 +538,10 @@ class Tapper:
                     if settings.ENABLE_AUTO_PLAY_GAMES:
                         await self.play_games(http_client=http_client)
 
-                sleep_in_seconds = random.choices([600, 1200, 1800, 2100], weights=[25, 25, 25, 25], k=1)[0]
-
-                sleep_in_minutes = sleep_in_seconds / 60
+                sleep_in_minutes = random.choices(settings.RANDOM_DELAY_BETWEEN_CYCLES, weights=[25, 25, 25, 25], k=1)[0]
 
                 self.info(f"sleep {sleep_in_minutes} minutes between cycles 💤")
-                await asyncio.sleep(delay=sleep_in_seconds)
+                await asyncio.sleep(delay=sleep_in_minutes*60)
 
             except Exception as error:
                 self.error(f"Unknown error: {error}")

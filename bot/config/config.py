@@ -15,6 +15,8 @@ class Settings(BaseSettings):
     USE_RANDOM_DELAY_IN_RUN: bool = True
     RANDOM_DELAY_IN_RUN: list[int] = [5, 60]
 
+    RANDOM_DELAY_BETWEEN_CYCLES: list[int] = [20, 40, 60, 80]
+
     BLACK_LIST_TASKS: list[str] = []
 
     USE_PROXY_FROM_FILE: bool = True
