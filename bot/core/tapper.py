@@ -37,6 +37,7 @@ from bot.utils.random import (
 from bot.config import settings
 from bot.utils import logger
 from bot.utils.logger import SelfTGClient
+from bot.utils.generate import generate_game_data
 from bot.exceptions import InvalidSession
 
 self_tg_client = SelfTGClient()
@@ -53,6 +54,7 @@ class Tapper:
         self.start_param = None
         self.peer = None
         self.first_run = None
+        self.game_service_is_unavailable = False
 
         self.session_ug_dict = self.load_user_agents() or []
 
@@ -365,24 +367,7 @@ class Tapper:
             return None
 
     async def get_game_data(self, http_client: aiohttp.ClientSession, game: dict):
-        try:
-            payload = {
-                "game_response": game
-            }
-
-            response = await http_client.get(
-                "https://moonbix-server-9r08ifrt4-scriptvips-projects.vercel.app/moonbix/api/v1/play",
-                json=payload
-            )
-
-            json = await response.json()
-
-            if json['message'] == 'success':
-                 self.info("Game data received successfully");
-                 return json['game'];
-        except Exception as error:
-            self.error(f"Error occurred during get game data: {error}")
-            return None
+        return generate_game_data(game=game)
 
     async def complete_game(self, http_client: aiohttp.ClientSession, game_data: dict):
         try:
@@ -395,7 +380,6 @@ class Tapper:
             response = await http_client.post(
                 "https://www.binance.com/bapi/growth/v1/friendly/growth-paas/mini-app-activity/third-party/game/complete",
                 json=payload,
-                headers={}
             )
 
             data = await response.json()
@@ -448,14 +432,18 @@ class Tapper:
                     if game_data is not None:
                         self.info(f"Wait {sleep}s to complete the game... 💤")
                         await asyncio.sleep(delay=sleep)
-
                         await self.complete_game(http_client=http_client, game_data=game_data)
+
 
                 else:
                     self.warning(f"Failed to start game, msg: {data}")
                     return
 
                 sleep = random.choices([3, 4, 5, 6], weights=[25, 25, 25, 25], k=1)[0]
+
+                if self.game_service_is_unavailable == True:
+                    self.warning(f"Auto games server is not available")
+                    return
 
                 self.info(f"Sleep {sleep}s between games 💤")
 
@@ -536,7 +524,7 @@ class Tapper:
                                 sleep = random.choices([3, 4, 5, 6], weights=[25, 25, 25, 25], k=1)[0]
                                 await asyncio.sleep(sleep)
 
-                    if settings.ENABLE_AUTO_PLAY_GAMES:
+                    if settings.ENABLE_AUTO_PLAY_GAMES and self.game_service_is_unavailable is not True:
                         await self.play_games(http_client=http_client)
 
                 sleep_in_minutes = random.choices(settings.RANDOM_DELAY_BETWEEN_CYCLES, weights=[25, 25, 25, 25], k=1)[0]
