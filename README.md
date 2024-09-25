@@ -6,6 +6,11 @@
 
 # 🚀AUTO FARM FOR MOONBIX 🚀
 
+## MY OTHERS BOTS
+
+### 💩 [Boinkers](https://github.com/YarmolenkoD/boinkers)
+### 🎨 [Notpixel](https://github.com/YarmolenkoD/notpixel)
+
 ## Recommendation before use
 
 # 🔥🔥 PYTHON version must be 3.10 🔥🔥
