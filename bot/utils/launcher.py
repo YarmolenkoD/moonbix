@@ -26,6 +26,7 @@ start_text = """
 My other bots:
 
 💩Boinkers - https://github.com/YarmolenkoD/boinkers
+🎨Not Pixel - https://github.com/YarmolenkoD/notpixel
 
 Select an action:
 
