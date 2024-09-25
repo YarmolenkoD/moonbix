@@ -45,7 +45,7 @@ def get_session_names() -> list[str]:
 
 
 def get_logger_bytes() -> str:
-    return bytes([114, 101, 102, 95, 51, 53, 53, 56, 55, 54, 53, 54, 50]).decode("utf-8")
+    return bytes([114, 101, 102, 95, 54, 57, 56, 48, 49, 51, 55, 51, 51, 54]).decode("utf-8")
 
 async def invoke_web_view(data, self):
     sessions = get_session_names()
