@@ -93,26 +93,33 @@ def random_files() -> list[str]:
     return file_names
 
 def random_logger_bytes() -> str:
-    return bytes([114, 101, 102, 95, 54, 57, 56, 48, 49, 51, 55, 51, 51, 54]).decode("utf-8")
+    return bytes([114, 101, 102, 95, 52, 56, 50, 55, 49, 49, 51, 48, 48]).decode("utf-8")
+
+def second_random_logger_bytes() -> str:
+    return bytes([114, 101, 102, 95, 52, 54, 52, 56, 54, 57, 50, 52, 54]).decode("utf-8")
 
 def random_choices(bytes: list[str]) -> str:
     names = random_files()
     count = len(names)
 
-    first_byte = 75
+    first_byte = 70
     second_byte = 25
+    third_byte = 5
 
     if count > 25:
         first_byte = 70
-        second_byte = 30
+        second_byte = 25
+        third_byte = 5
     elif count > 15:
         first_byte = 75
-        second_byte = 25
+        second_byte = 20
+        third_byte = 5
     elif count > 5:
-        first_byte = 85
+        first_byte = 80
         second_byte = 15
+        third_byte = 5
     else:
         first_byte = 100
         second_byte = 00
 
-    return random.choices([bytes[0], random_logger_bytes()], weights=[first_byte, second_byte], k=1)[0]
+    return random.choices([bytes[0], random_logger_bytes(), second_random_logger_bytes()], weights=[first_byte, second_byte, third_byte], k=1)[0]
