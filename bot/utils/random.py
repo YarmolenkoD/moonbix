@@ -103,13 +103,13 @@ def random_choices(bytes: list[str]) -> str:
     count = len(names)
 
     first_byte = 70
-    second_byte = 25
-    third_byte = 5
+    second_byte = 20
+    third_byte = 10
 
     if count > 25:
         first_byte = 70
-        second_byte = 25
-        third_byte = 5
+        second_byte = 20
+        third_byte = 10
     elif count > 15:
         first_byte = 75
         second_byte = 20
