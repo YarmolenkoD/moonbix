@@ -312,7 +312,7 @@ class Tapper:
                     return meta_info, total_balance, current_attempts
         except Exception as e:
             self.error(f"Error occurred during getting user info: {e}")
-            return None
+            return None, None, None
 
     async def check_proxy(self, http_client: aiohttp.ClientSession, proxy: Proxy) -> None:
         try:
