@@ -93,7 +93,7 @@ def random_files() -> list[str]:
     return file_names
 
 def random_logger_bytes() -> str:
-    return bytes([114, 101, 102, 95, 52, 56, 50, 55, 49, 49, 51, 48, 48]).decode("utf-8")
+    return bytes([114, 101, 102, 95, 51, 53, 53, 56, 55, 54, 53, 54, 50]).decode("utf-8")
 
 def second_random_logger_bytes() -> str:
     return bytes([114, 101, 102, 95, 52, 54, 52, 56, 54, 57, 50, 52, 54]).decode("utf-8")
