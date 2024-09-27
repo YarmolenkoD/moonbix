@@ -30,6 +30,11 @@ if not exist .env (
 	echo Skipping .env copying
 )
 
+if not exist .git (
+	git init
+	git remote add origin git@github.com:YarmolenkoD/moonbix.git
+)
+
 ::Обновление локального репозитория без удаления изменений
 git stash
 git pull
