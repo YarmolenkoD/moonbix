@@ -6,6 +6,9 @@
 
 # 🚀AUTO FARM FOR MOONBIX 🚀
 
+> [!WARNING]
+> I am not responsible for your account. Please consider the potential risks before using this bot.
+
 ## MY OTHERS BOTS
 
 ### 💩 [Boinkers](https://github.com/YarmolenkoD/boinkers)
