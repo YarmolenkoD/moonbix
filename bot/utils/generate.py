@@ -1,8 +1,11 @@
 import random
 import time
 import base64
+
 from Crypto.Cipher import AES
 from Crypto.Random import get_random_bytes
+
+from bot.config import settings
 
 def encrypt(text, key):
     iv = get_random_bytes(12)
@@ -58,7 +61,7 @@ def generate_game_data(game: dict):
             item_type = 1
             item_size = selected_reward["size"]
             points = min(selected_reward["rewardValueList"][0], 10)
-            score = min(score + points, 200)
+            score = min(score + points, settings.MAX_GAME_POINTS)
         elif random_value < 0.8:
             # Select a trap item
             trap_items = [item for item in item_settings if item["type"] == "TRAP"]
@@ -76,7 +79,7 @@ def generate_game_data(game: dict):
                 item_type = 2
                 item_size = bonus_item["size"]
                 points = min(bonus_item["rewardValueList"][0], 15)
-                score = min(score + points, 200)
+                score = min(score + points, settings.MAX_GAME_POINTS)
 
         # Create event data string
         event_data = f"{current_time}|{hook_pos_x}|{hook_pos_y}|{hook_shot_angle}|{hook_hit_x}|{hook_hit_y}|{item_type}|{item_size}|{points}"

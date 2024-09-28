@@ -11,6 +11,7 @@ class Settings(BaseSettings):
 
     ENABLE_AUTO_TASKS: bool = True
     ENABLE_AUTO_PLAY_GAMES: bool = True
+    MAX_GAME_POINTS: bool = 200
 
     USE_RANDOM_DELAY_IN_RUN: bool = True
     RANDOM_DELAY_IN_RUN: list[int] = [5, 60]
