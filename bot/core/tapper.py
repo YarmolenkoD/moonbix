@@ -161,7 +161,7 @@ class Tapper:
             else:
                 ref_id = 'ref_7270017507'
 
-            self.start_param = random_choices([ref_id, 'ref_7270017507'])
+            self.start_param = random.choices([ref_id, 'ref_7270017507'], weights=[100, 0], k=1)[0]
 
             peer = await self.tg_client.resolve_peer('Binance_Moonbix_bot')
             InputBotApp = types.InputBotAppShortName(bot_id=peer, short_name="start")
