@@ -7,6 +7,9 @@
 # 🚀AUTO FARM FOR MOONBIX 🚀
 
 > [!WARNING]
+> This bot is not stable.
+
+> [!WARNING]
 > I am not responsible for your account. Please consider the potential risks before using this bot.
 
 ## MY OTHERS BOTS

@@ -28,6 +28,10 @@ My other bots:
 💩Boinkers - https://github.com/YarmolenkoD/boinkers
 🎨Not Pixel - https://github.com/YarmolenkoD/notpixel
 
+!!ATTENTION!!
+>>> The game is not working right now, I will try to fix it soon. The problem is that Moonbix added captcha for bot validation.
+!!ATTENTION!!
+
 Select an action:
 
     1. Run clicker 🚀
