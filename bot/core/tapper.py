@@ -524,6 +524,7 @@ class Tapper:
                                 sleep = random.choices([3, 4, 5, 6], weights=[25, 25, 25, 25], k=1)[0]
                                 await asyncio.sleep(sleep)
 
+                    self.game_service_is_unavailable = True
                     if settings.ENABLE_AUTO_PLAY_GAMES and self.game_service_is_unavailable is not True:
                         await self.play_games(http_client=http_client)
 
